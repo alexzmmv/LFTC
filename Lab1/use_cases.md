@@ -14,13 +14,25 @@ Justification: Enables naming results instead of recomputing expressions.
 Purpose: Conditional branching for data-dependent actions.
 Example:
 ```
+!! SIMPLE IF-ELSE
 if (value > threshold) {
   put("ALERT");
 } else {
   put("OK");
 }
+
+!! NESTED IF-ELSE (UNAMBIGUOUS)
+if (temp > high) {
+  if (humidity > 80) {
+    put("CRITICAL");
+  } else {
+    put("WARNING");  !! else matches nearest if (humidity)
+  }
+} else {
+  put("NORMAL");
+}
 ```
-Justification: Required to react differently based on data states.
+Justification: Required for complex conditional logic with unambiguous nesting.
 
 ## 3. For (Counter Loop)
 Purpose: Iterative numeric processing (e.g., aggregations by index).
@@ -58,25 +70,32 @@ status = (max > threshold) ? "ALERT" : "OK";
 ```
 Justification: Concise conditional assignment without full if/else block.
 
-## 7. List Literals
-Purpose: Build ad-hoc collections for processing.
+## 7. List Literals and Indexing
+Purpose: Build and access collections for processing.
 Example:
 ```
+!! SIMPLE LIST AND INDEXING
 readings = [12, 15, 18, 14];
+first = readings[0];
+
+!! NESTED LISTS AND MULTI-DIMENSIONAL ACCESS
+matrix = [[1, 2], [3, 4]];
+cell = matrix[1][0];  !! gets 3
 ```
-Justification: Core data structure for filtering/transformation tasks.
+Justification: Core data structures with flexible single/multi-dimensional access.
 
 ## 8. Comments (!! / !!!)
 Purpose: Document logic; multi-line for block notes.
 Example:
 ```
-!! COMMENT
-!!! MUAHAHA!
-MORE COMMENT ON MORE LINES 
-HUA?
+!! THIS IS A SINGLE LINE COMMENT
+!!! 
+THIS IS A MULTI-LINE COMMENT
+WITH UPPERCASE LETTERS
+AND NUMBERS 123
 !!!
 ```
-Justification: Improves maintainability; ignored by interpreter.
+Justification: Improves maintainability; ignored by interpreter. Comments must use uppercase letters.
 
 ## Minimal End-to-End Snippet
 ```
